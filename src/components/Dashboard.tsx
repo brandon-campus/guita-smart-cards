@@ -10,9 +10,10 @@ interface DashboardProps {
   cards: CreditCard[];
   onCardClick: (card: CreditCard) => void;
   onAddCard: () => void;
+  onScanStatement: (card: CreditCard) => void;
 }
 
-export const Dashboard = ({ cards, onCardClick, onAddCard }: DashboardProps) => {
+export const Dashboard = ({ cards, onCardClick, onAddCard, onScanStatement }: DashboardProps) => {
   const totalCreditLimit = cards.reduce((sum, card) => sum + card.creditLimit, 0);
   const totalUsed = cards.reduce((sum, card) => sum + card.currentBalance, 0);
   const totalAvailable = cards.reduce((sum, card) => sum + card.availableCredit, 0);
@@ -145,6 +146,7 @@ export const Dashboard = ({ cards, onCardClick, onAddCard }: DashboardProps) => 
                 <CreditCardCard 
                   card={card} 
                   onClick={() => onCardClick(card)}
+                  onScanStatement={() => onScanStatement(card)}
                 />
               </div>
             ))}

@@ -2,15 +2,16 @@ import { CreditCard } from "@/types/creditCard";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { CreditCard as CreditCardIcon, Eye, AlertTriangle } from "lucide-react";
+import { CreditCard as CreditCardIcon, Eye, AlertTriangle, Scan } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
 interface CreditCardCardProps {
   card: CreditCard;
   onClick: () => void;
+  onScanStatement: () => void;
 }
 
-export const CreditCardCard = ({ card, onClick }: CreditCardCardProps) => {
+export const CreditCardCard = ({ card, onClick, onScanStatement }: CreditCardCardProps) => {
   const usedPercentage = (card.currentBalance / card.creditLimit) * 100;
   const isHighUsage = usedPercentage >= 80;
   const isMediumUsage = usedPercentage >= 60;
@@ -54,9 +55,22 @@ export const CreditCardCard = ({ card, onClick }: CreditCardCardProps) => {
               <p className="text-sm text-muted-foreground">•••• {card.lastFourDigits}</p>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-smooth">
-            <Eye className="h-4 w-4" />
-          </Button>
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-smooth">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onScanStatement();
+                }}
+                className="h-8 w-8"
+              >
+                <Scan className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Eye className="h-4 w-4" />
+              </Button>
+            </div>
         </div>
 
         {/* Usage progress */}
